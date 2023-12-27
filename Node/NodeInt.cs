@@ -7,7 +7,7 @@
         return str;
     }
 
-    public static Node<int> Create(int i, bool IsDescending)
+    public static Node<int> Create(this int i, bool IsDescending)
     {
         Node<int> node;
         if (IsDescending)
@@ -109,10 +109,12 @@
     public static int Count(this Node<int> node)
     {
         if (node is null)
+
         {
             return 0;
         }
-        return Count(node, 0);
+        int count = Count(node.GetNext());
+        return ++count;
         int i = 0;
         for (Node<int> point = node; point.HasNext(); point = point.GetNext())
         {
@@ -120,31 +122,14 @@
         }
         return i;
     }
-    private static int Count(Node<int> node, int i)
-    {
-        if (node is null)
-        {
-            return i;
-        }
-        return Count(node.GetNext(), ++i);
-    }
-    
+
     public static int Sum(this Node<int> node)
     {
         if (node is null)
         {
             return 0;
         }
-        return Sum(node, 0);
-    }
-    private static int Sum(Node<int> node, int sum)
-    {
-        if (node is null)
-        {
-            return sum;
-        }
-        return Sum(node.GetNext(), sum + node.GetValue());
-
+        return node.GetValue() + Sum(node.GetNext());
     }
    
     public static double Average(this Node<int> node)
@@ -239,7 +224,18 @@
         }
         return _IsUp(next);
     }
-
+    public static bool Contains(this Node<char> node, char value)
+    {
+        if (node is null)
+        {
+            return false;
+        }
+        if (node.GetValue() == value)
+        {
+            return true;
+        }
+        return Contains(node, value);
+    }
     public static bool Contains(this Node<int> node, int value)
     {
         if (node is null)
